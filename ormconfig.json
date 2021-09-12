@@ -1,0 +1,13 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": "5431",
+  "username": "postgres",
+  "password": "7cav",
+  "database": "changelog",
+  "synchronize": true,
+  "logging": false,
+  "entities": [
+    "dist/entities/**/*"
+  ]
+}
