@@ -3,7 +3,7 @@ export interface Trooper {
   rank: Rank
   realName: string
   uniformUrl: string
-  roster: string
+  roster: RosterType
   primary: Position
   secondaries: Position[]
   records: Record[]
@@ -12,18 +12,28 @@ export interface Trooper {
   promotionDate: string
 }
 
-interface Award {
+export enum RosterType {
+  UNSPECIFIED = 'ROSTER_TYPE_UNSPECIFIED',
+  COMBAT = 'ROSTER_TYPE_COMBAT',
+  RESERVE = 'ROSTER_TYPE_RESERVE',
+  ELOA = 'ROSTER_TYPE_ELOA',
+  WALL_OF_HONOR = 'ROSTER_TYPE_WALL_OF_HONOR',
+  ARLINGTON = 'ROSTER_TYPE_ARLINGTON',
+  PAST_MEMBERS = 'ROSTER_TYPE_PAST_MEMBERS'
+}
+
+export interface Award {
   awardDetails: string
   awardName: string
   awardDate: string
   awardImageUrl: string
 }
 
-interface Position {
+export interface Position {
   positionTitle: string
 }
 
-interface Rank {
+export interface Rank {
   rankShort: string
   rankFull: string
   rankImageUrl: string
@@ -36,13 +46,13 @@ export interface Record {
 }
 
 export enum RecordType {
-  RecordTypeAssignment = 'RECORD_TYPE_ASSIGNMENT',
-  RecordTypeDischarge = 'RECORD_TYPE_DISCHARGE',
-  RecordTypeGraduation = 'RECORD_TYPE_GRADUATION',
-  RecordTypeOperation = 'RECORD_TYPE_OPERATION',
-  RecordTypePromotion = 'RECORD_TYPE_PROMOTION',
-  RecordTypeTransfer = 'RECORD_TYPE_TRANSFER',
-  RecordTypeUnspecified = 'RECORD_TYPE_UNSPECIFIED'
+  ASSIGNMENT = 'RECORD_TYPE_ASSIGNMENT',
+  DISCHARGE = 'RECORD_TYPE_DISCHARGE',
+  GRADUATION = 'RECORD_TYPE_GRADUATION',
+  OPERATION = 'RECORD_TYPE_OPERATION',
+  PROMOTION = 'RECORD_TYPE_PROMOTION',
+  TRANSFER = 'RECORD_TYPE_TRANSFER',
+  UNSPECIFIED = 'RECORD_TYPE_UNSPECIFIED'
 }
 
 export interface User {
@@ -52,13 +62,28 @@ export interface User {
 }
 
 export interface Event {
-  type: string
+  type: EventType
   userId: number
   milpacId: number
   message: EventMessage
 }
 
-export type EventMessage = Record | Award | { from: string, to: string}
+export enum EventType {
+  NAME = 'name',
+  RANK = 'rank',
+  ROSTER = 'roster',
+  PRIMARY = 'primary',
+  SECONDARY_ADDED = 'secondary - added',
+  SECONDARY_REMOVED = 'secondary - removed',
+  AWARD_ADDED = 'award - added',
+  AWARD_REMOVED = 'award - removed',
+  RECORD_ADDED = 'record - added',
+  RECORD_REMOVED = 'record - removed',
+  TROOPER_ADDED = 'trooper - added',
+  TROOPER_REMOVED = 'trooper - removed',
+}
+
+export type EventMessage = Record | Award | { from: string, to: string }
 
 export function compareTrooper (old: Trooper, current: Trooper): Event[] {
   const diff = (arr1: string[], arr2: string[]): string[] => arr1.filter(v => !arr2.includes(v))
@@ -71,22 +96,22 @@ export function compareTrooper (old: Trooper, current: Trooper): Event[] {
 
   // * Name
   if (old.realName !== current.realName) {
-    events.push({ type: 'name', userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: old.realName, to: current.realName } })
+    events.push({ type: EventType.NAME, userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: old.realName, to: current.realName } })
   }
 
   // * Rank
   if (old.rank.rankShort !== current.rank.rankShort) {
-    events.push({ type: 'rank', userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: old.rank.rankShort, to: current.rank.rankShort } })
+    events.push({ type: EventType.RANK, userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: old.rank.rankShort, to: current.rank.rankShort } })
   }
 
   // * Roster
   if (old.roster !== current.roster) {
-    events.push({ type: 'roster', userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: old.roster, to: current.roster } })
+    events.push({ type: EventType.ROSTER, userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: old.roster, to: current.roster } })
   }
 
   // * Primary Position
   if (old.primary.positionTitle !== current.primary.positionTitle) {
-    events.push({ type: 'primary', userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: old.primary.positionTitle, to: current.primary.positionTitle } })
+    events.push({ type: EventType.PRIMARY, userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: old.primary.positionTitle, to: current.primary.positionTitle } })
   }
 
   // * Secondary Position(s)
@@ -95,9 +120,9 @@ export function compareTrooper (old: Trooper, current: Trooper): Event[] {
     const currentSecondaries = current.secondaries.map(v => v.positionTitle)
 
     diff(oldSecondaries, currentSecondaries)
-      .forEach(v => events.push({ type: 'secondary - removed', userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: v, to: '' } }))
+      .forEach(v => events.push({ type: EventType.SECONDARY_REMOVED, userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: v, to: '' } }))
     diff(currentSecondaries, oldSecondaries)
-      .forEach(v => events.push({ type: 'secondary - added', userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: '', to: v } }))
+      .forEach(v => events.push({ type: EventType.SECONDARY_ADDED, userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: { from: '', to: v } }))
   }
 
   // * Service Records
@@ -106,9 +131,9 @@ export function compareTrooper (old: Trooper, current: Trooper): Event[] {
     const currentRecords = current.records.map(v => JSON.stringify(v))
 
     diff(oldRecords, currentRecords)
-      .forEach(v => events.push({ type: 'record - removed', userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: JSON.parse(v) }))
+      .forEach(v => events.push({ type: EventType.RECORD_REMOVED, userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: JSON.parse(v) }))
     diff(currentRecords, oldRecords)
-      .forEach(v => events.push({ type: 'record - added', userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: JSON.parse(v) }))
+      .forEach(v => events.push({ type: EventType.RECORD_ADDED, userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: JSON.parse(v) }))
   }
 
   // * Awards
@@ -117,9 +142,9 @@ export function compareTrooper (old: Trooper, current: Trooper): Event[] {
     const currentAwards = current.awards.map(v => JSON.stringify(v))
 
     diff(oldAwards, currentAwards)
-      .forEach(v => events.push({ type: 'award - removed', userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: JSON.parse(v) }))
+      .forEach(v => events.push({ type: EventType.AWARD_REMOVED, userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: JSON.parse(v) }))
     diff(currentAwards, oldAwards)
-      .forEach(v => events.push({ type: 'award - added', userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: JSON.parse(v) }))
+      .forEach(v => events.push({ type: EventType.AWARD_ADDED, userId: Number(current.user.userId), milpacId: Number(current.user.milpacId), message: JSON.parse(v) }))
   }
 
   return events

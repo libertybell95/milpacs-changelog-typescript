@@ -1,4 +1,4 @@
-import { compareTrooper, Event, Trooper } from './scraper'
+import { compareTrooper, Event, EventType, Trooper } from './scraper'
 import { getTrooper } from './rosters'
 
 export function getChanges (oldTroopers: Trooper[], currentTroopers: Trooper[]): Event[] {
@@ -13,7 +13,7 @@ export function getChanges (oldTroopers: Trooper[], currentTroopers: Trooper[]):
     .map(v => getTrooper(currentTroopers, v))
     .forEach(v => {
       if (v !== undefined) {
-        events.push({ type: 'trooper - added', userId: Number(v.user.userId), milpacId: Number(v.user.milpacId), message: { from: '', to: v.realName } })
+        events.push({ type: EventType.TROOPER_ADDED, userId: Number(v.user.userId), milpacId: Number(v.user.milpacId), message: { from: '', to: v.realName } })
       }
     })
 
@@ -21,7 +21,7 @@ export function getChanges (oldTroopers: Trooper[], currentTroopers: Trooper[]):
     .map(v => getTrooper(oldTroopers, v))
     .forEach(v => {
       if (v !== undefined) {
-        events.push({ type: 'trooper - removed', userId: Number(v.user.userId), milpacId: Number(v.user.milpacId), message: { from: v.realName, to: '' } })
+        events.push({ type: EventType.TROOPER_REMOVED, userId: Number(v.user.userId), milpacId: Number(v.user.milpacId), message: { from: v.realName, to: '' } })
       }
     })
 
