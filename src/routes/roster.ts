@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 // TODO: Fix this in .eslintrc
 
+// * Route: /api/changes
+
 import { Router } from 'express'
 import { getChanges } from '../lib/changes'
 import { getCurrentTroopers, getOldTroopers } from '../lib/rosters'

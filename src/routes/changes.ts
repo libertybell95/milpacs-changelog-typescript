@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 // TODO: Fix this in .eslintrc
 
+// * Route: /api/changes
+
 import { Router } from 'express'
 import { getConnection } from 'typeorm'
 import Change from '../entities/Change'
