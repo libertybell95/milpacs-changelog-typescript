@@ -1,3 +1,54 @@
+import { Event, EventType } from './changes'
+
+export interface User {
+  milpacId: string
+  userId: string
+  username: string
+}
+
+export interface Rank {
+  rankShort: string
+  rankFull: string
+  rankImageUrl: string
+}
+
+export enum RosterType {
+  UNSPECIFIED = 'ROSTER_TYPE_UNSPECIFIED',
+  COMBAT = 'ROSTER_TYPE_COMBAT',
+  RESERVE = 'ROSTER_TYPE_RESERVE',
+  ELOA = 'ROSTER_TYPE_ELOA',
+  WALL_OF_HONOR = 'ROSTER_TYPE_WALL_OF_HONOR',
+  ARLINGTON = 'ROSTER_TYPE_ARLINGTON',
+  PAST_MEMBERS = 'ROSTER_TYPE_PAST_MEMBERS'
+}
+
+export interface Position {
+  positionTitle: string
+}
+
+export enum RecordType {
+  ASSIGNMENT = 'RECORD_TYPE_ASSIGNMENT',
+  DISCHARGE = 'RECORD_TYPE_DISCHARGE',
+  GRADUATION = 'RECORD_TYPE_GRADUATION',
+  OPERATION = 'RECORD_TYPE_OPERATION',
+  PROMOTION = 'RECORD_TYPE_PROMOTION',
+  TRANSFER = 'RECORD_TYPE_TRANSFER',
+  UNSPECIFIED = 'RECORD_TYPE_UNSPECIFIED'
+}
+
+export interface Record {
+  recordDetails: string
+  recordType: RecordType
+  recordDate: string
+}
+
+export interface Award {
+  awardDetails: string
+  awardName: string
+  awardDate: string
+  awardImageUrl: string
+}
+
 export interface Trooper {
   user: User
   rank: Rank
@@ -11,79 +62,6 @@ export interface Trooper {
   joinDate: string
   promotionDate: string
 }
-
-export enum RosterType {
-  UNSPECIFIED = 'ROSTER_TYPE_UNSPECIFIED',
-  COMBAT = 'ROSTER_TYPE_COMBAT',
-  RESERVE = 'ROSTER_TYPE_RESERVE',
-  ELOA = 'ROSTER_TYPE_ELOA',
-  WALL_OF_HONOR = 'ROSTER_TYPE_WALL_OF_HONOR',
-  ARLINGTON = 'ROSTER_TYPE_ARLINGTON',
-  PAST_MEMBERS = 'ROSTER_TYPE_PAST_MEMBERS'
-}
-
-export interface Award {
-  awardDetails: string
-  awardName: string
-  awardDate: string
-  awardImageUrl: string
-}
-
-export interface Position {
-  positionTitle: string
-}
-
-export interface Rank {
-  rankShort: string
-  rankFull: string
-  rankImageUrl: string
-}
-
-export interface Record {
-  recordDetails: string
-  recordType: RecordType
-  recordDate: string
-}
-
-export enum RecordType {
-  ASSIGNMENT = 'RECORD_TYPE_ASSIGNMENT',
-  DISCHARGE = 'RECORD_TYPE_DISCHARGE',
-  GRADUATION = 'RECORD_TYPE_GRADUATION',
-  OPERATION = 'RECORD_TYPE_OPERATION',
-  PROMOTION = 'RECORD_TYPE_PROMOTION',
-  TRANSFER = 'RECORD_TYPE_TRANSFER',
-  UNSPECIFIED = 'RECORD_TYPE_UNSPECIFIED'
-}
-
-export interface User {
-  milpacId: string
-  userId: string
-  username: string
-}
-
-export interface Event {
-  type: EventType
-  userId: number
-  milpacId: number
-  message: EventMessage
-}
-
-export enum EventType {
-  NAME = 'name',
-  RANK = 'rank',
-  ROSTER = 'roster',
-  PRIMARY = 'primary',
-  SECONDARY_ADDED = 'secondary - added',
-  SECONDARY_REMOVED = 'secondary - removed',
-  AWARD_ADDED = 'award - added',
-  AWARD_REMOVED = 'award - removed',
-  RECORD_ADDED = 'record - added',
-  RECORD_REMOVED = 'record - removed',
-  TROOPER_ADDED = 'trooper - added',
-  TROOPER_REMOVED = 'trooper - removed',
-}
-
-export type EventMessage = Record | Award | { from: string, to: string }
 
 export function compareTrooper (old: Trooper, current: Trooper): Event[] {
   const diff = (arr1: string[], arr2: string[]): string[] => arr1.filter(v => !arr2.includes(v))

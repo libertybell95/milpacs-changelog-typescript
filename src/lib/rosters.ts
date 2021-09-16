@@ -28,10 +28,10 @@ export async function getCurrentTroopers (): Promise<Trooper[] | undefined> {
 }
 
 export async function getOldTroopers (): Promise<Trooper[] | undefined> {
-  const roster = await getConnection().getRepository(Roster).find({ select: ['id', 'created'] })
-  const mostRecent = roster.reverse()[0]
-
-  return (await getConnection().getRepository(Roster).findOne({ id: mostRecent.id }))?.roster
+  const roster = await getConnection().getRepository(Roster).findOne({
+    order: { created: 'DESC' }
+  })
+  return roster?.roster
 }
 
 export function getTrooper (troopers: Trooper[], userId: string): Trooper | undefined {

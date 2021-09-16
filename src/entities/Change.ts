@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
-import { EventMessage } from '../lib/scraper'
+import { EventMessage } from '../lib/changes'
 
 @Entity()
 export default class Change {

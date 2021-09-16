@@ -1,5 +1,29 @@
-import { compareTrooper, Event, EventType, Trooper } from './scraper'
+import { compareTrooper, Trooper, Record, Award } from './scraper'
 import { getTrooper } from './rosters'
+
+export enum EventType {
+  NAME = 'name',
+  RANK = 'rank',
+  ROSTER = 'roster',
+  PRIMARY = 'primary',
+  SECONDARY_ADDED = 'secondary - added',
+  SECONDARY_REMOVED = 'secondary - removed',
+  AWARD_ADDED = 'award - added',
+  AWARD_REMOVED = 'award - removed',
+  RECORD_ADDED = 'record - added',
+  RECORD_REMOVED = 'record - removed',
+  TROOPER_ADDED = 'trooper - added',
+  TROOPER_REMOVED = 'trooper - removed',
+}
+
+export type EventMessage = Record | Award | { from: string, to: string }
+
+export interface Event {
+  type: EventType
+  userId: number
+  milpacId: number
+  message: EventMessage
+}
 
 export function getChanges (oldTroopers: Trooper[], currentTroopers: Trooper[]): Event[] {
   const oldTrooperIds = oldTroopers.map(v => v.user.userId)
