@@ -1,5 +1,7 @@
 # MILPACS Changelog - Now in Typescript
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 An application that looks for changes in the 7th Cavalry Regiment's MILPACS via the 7Cav API and logs them. Built to eventually integrate with a Pub/Sub system like RabbitMQ to signal other applications that depend on knowing of changes to milpacs.
 
 The system currently looks for the following changes for each trooper:
