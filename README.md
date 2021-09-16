@@ -1,6 +1,6 @@
 # MILPACS Changelog - Now in Typescript
 
-[![Typescript Style Guide](https://img.shields.io/badge/style-ts--standard-success)](https://github.com/standard/ts-standard)
+[![Typescript Style Guide](https://img.shields.io/badge/code%20style-ts--standard-success)](https://github.com/standard/ts-standard)
 
 An application that looks for changes in the 7th Cavalry Regiment's [MILPACS](https://7cav.us/rosters/) via the [7Cav API](https://github.com/7Cav/api) and logs them. Built to eventually integrate with a Pub/Sub system like RabbitMQ to signal other applications that depend on knowing of changes to milpacs.
 
