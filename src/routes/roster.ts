@@ -7,6 +7,7 @@ import { getCurrentTroopers, getOldTroopers } from '../lib/rosters'
 import { getConnection } from 'typeorm'
 import Roster from '../entities/Roster'
 import Change from '../entities/Change'
+import config from 'config'
 
 const router = Router()
 
@@ -28,7 +29,7 @@ router.get('/current', async (req, res) => {
   }
 })
 
-router.get('/compare', async (req, res) => {
+router.post('/compare', async (req, res) => {
   const old = await getOldTroopers()
   const current = await getCurrentTroopers()
 
@@ -39,9 +40,25 @@ router.get('/compare', async (req, res) => {
   res.send(changes)
 
   if (typeof req.query === 'object' && req.query.save === '1') {
-    changes.forEach(async (event) => await getConnection().getRepository(Change).insert(event))
+    changes.forEach(event => getConnection().getRepository(Change).insert(event))
     await getConnection().getRepository(Roster).insert({ roster: current })
   }
+})
+
+// Delete old rosters. For space saving
+router.delete('/cleanup', async (req, res) => {
+  const rosters = await getConnection().getRepository(Roster).find({
+    select: [ 'id', 'created' ],
+    order: {
+      created: 'DESC'
+    }
+  })
+
+  rosters
+    .slice(config.get<number>('max-trooper-files')) // Get rosters to delete
+    .forEach(roster => getConnection().getRepository(Roster).delete({ id: roster.id })) // Delete them
+
+  res.sendStatus(200)
 })
 
 export default router

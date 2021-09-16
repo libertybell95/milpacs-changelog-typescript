@@ -7,12 +7,17 @@ import Change from '../entities/Change'
 
 const router = Router()
 
-router.get('/userId/:id', async (req, res) => {
+router.get('/', async (req, res) => {
+  const changes = await getConnection().getRepository(Change).find()
+  res.json(changes.reverse())
+})
+
+router.get('/trooper/userId/:id', async (req, res) => {
   const changes = await getConnection().getRepository(Change).find({ userId: Number(req.params.id) })
   res.json(changes)
 })
 
-router.get('/milpacId/:id', async (req, res) => {
+router.get('/trooper/milpacId/:id', async (req, res) => {
   const changes = await getConnection().getRepository(Change).find({ milpacId: Number(req.params.id) })
   res.json(changes)
 })

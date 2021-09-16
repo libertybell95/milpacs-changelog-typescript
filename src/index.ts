@@ -5,7 +5,7 @@ import config from 'config'
 import { createConnection } from 'typeorm'
 
 import Roster from './routes/roster'
-import Trooper from './routes/trooper'
+import Changes from './routes/changes'
 
 const app = express()
 const PORT: number = config.get('port')
@@ -13,12 +13,8 @@ const PORT: number = config.get('port')
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 
-app.use('/roster', Roster)
-app.use('/trooper', Trooper)
-
-app.get('/', (req, res) => {
-  res.sendStatus(200)
-})
+app.use('/api/roster', Roster)
+app.use('/api/changes', Changes)
 
 async function main (): Promise<void> {
   const dbConn = await createConnection()
