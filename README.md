@@ -26,8 +26,8 @@ The system currently looks for the following changes for each trooper:
 
 ## To Do
 
-* ❌ Postgresql Database
-* ❌ Pub/Sub service (RabbitMQ? Redis Pub/Sub?)
-* ❌ Front end, probably in React.js
-* ❌ docker-compose file for solution deployment
-* ❌ Create script that pulls initial state of roster. Similar to `/api/roster/current?save=1`
+* Postgresql Database
+* Pub/Sub service (RabbitMQ? Redis Pub/Sub?)
+* Front end, probably in React.js
+* docker-compose file for solution deployment
+* Create script that pulls initial state of roster. Similar to `/api/roster/current?save=1`
