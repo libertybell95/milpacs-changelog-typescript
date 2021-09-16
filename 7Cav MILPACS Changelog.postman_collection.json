@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "5bdd9439-5e32-46cf-9eed-aa0ecd6229a4",
+		"name": "7Cav MILPACS Changelog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Roster",
+			"item": [
+				{
+					"name": "Get old roster (most recently saved)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/roster/old",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"roster",
+								"old"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current roster (from 7Cav API)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/roster/current",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"roster",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get old -> current roster changes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/roster/compare?save=1",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"roster",
+								"compare"
+							],
+							"query": [
+								{
+									"key": "save",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete old rosters",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/roster/cleanup",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"roster",
+								"cleanup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Changes",
+			"item": [
+				{
+					"name": "Get all changes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/changes/",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"changes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get changes for userId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/changes/userId/{{id}}",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"changes",
+								"userId",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get changes for milpacId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/changes/milpacId/{{id}}",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"changes",
+								"milpacId",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

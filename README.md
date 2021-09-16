@@ -20,6 +20,10 @@ The system currently looks for the following changes for each trooper:
 * Run `npm start`
 * Make a GET request to `/api/roster/current?save=1` to create a reference roster entry for the database
 
+## Developer Tools
+
+`7Cav MILPACS Changelog.postman_collection.json` provides a Postman collection for developers.
+
 ## To Do
 
 * ❌ Postgresql Database
