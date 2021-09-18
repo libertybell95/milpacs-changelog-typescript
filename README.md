@@ -1,4 +1,6 @@
-# MILPACS Changelog - Now in Typescript (⚠️ Under COnstruction ⚠️)
+# MILPACS Changelog - Now in Typescript
+
+## (⚠️ Under Construction ⚠️)
 
 [![Typescript Style Guide](https://img.shields.io/badge/code%20style-ts--standard-success)](https://github.com/standard/ts-standard)
 
